@@ -18,6 +18,7 @@ build = {
     modules = {
         ["resty.session"]                       = "lib/resty/session.lua",
         ["resty.session.identifiers.random"]    = "lib/resty/session/identifiers/random.lua",
+        ["resty.session.identifiers.uid"]       = "lib/resty/session/identifiers/uid.lua",
         ["resty.session.storage.shm"]           = "lib/resty/session/storage/shm.lua",
         ["resty.session.storage.dshm"]          = "lib/resty/session/storage/dshm.lua",
         ["resty.session.storage.redis"]         = "lib/resty/session/storage/redis.lua",
