@@ -646,7 +646,7 @@ function session.start(opts)
             return nil, err or "unable to touch session cookie"
         end
     end
-
+    ngx.log(ngx.INFO, "session: " .. self.id .. " created")
     return self, true
 end
 
@@ -672,6 +672,7 @@ function session.destroy(opts)
     self.started   = nil
     self.closed    = true
     self.destroyed = true
+    ngx.log(ngx.INFO, "session: " .. self.id .. " ended")
 
     return set_cookie(self, "", true)
 end
@@ -679,6 +680,8 @@ end
 function session:regenerate(flush, close)
     close = close ~= false
     regenerate(self, flush)
+    ngx.log(ngx.INFO, "session: " .. self.id .. " renewed")
+
     return save(self, close)
 end
 
