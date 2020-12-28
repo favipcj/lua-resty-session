@@ -17,24 +17,8 @@ return function(session)
         uid = session.data.user.email
     end
     local pad = random(length, true) or random(length)
-    ngx.log(ngx.STDERR, "header_name: " .. defaults.header_name .. " uid: " .. uid .. " pad: " .. pad)
-    ngx.log(ngx.STDERR, "session info: ")
-    if session.data.user then
-        for k,v in pairs(session.data.user) do
-            if type(v) == "string" then
-                ngx.log(ngx.STDERR, 'key: ' .. k .. ' value: ' .. v)
-            else
-                ngx.log(ngx.STDERR, 'key: ' .. k)
-            end
-        end
-    end
-    -- for k, v in pairs(session.data) do
-    --    ngx.log(ngx.STDERR, 'session data: ' .. k)
-    --    ngx.log(ngx.STDERR, 'value type: ' .. type(v))
-    --    if type(v) == "string" then
-    --        ngx.log(ngx.STDERR, 'session data value: ' .. v)
-    --    end
-    --end
+    ngx.log(ngx.STDERR, "uid: " .. uid .. " pad: " .. pad)
+
 
     -- return uid if avalible with padding
     return (uid .. pad)
