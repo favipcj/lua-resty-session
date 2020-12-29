@@ -25,8 +25,10 @@ local function key(source)
 end
 
 local function check_open_sessions(session)
+    -- set configuration
+    local config = session.sessionlimit or defaults
     -- check for current user session
-    if defaults.concurrent_limit > 0 then
+    if config.concurrent_limit > 0 then
         ngx.log(ngx.DEBUG, "concurrent limit being checked...")
         if session.data and session.data.user then
             ngx.log(ngx.DEBUG, "user email: " .. session.encoder.encode(session.data.user.email))
@@ -34,7 +36,7 @@ local function check_open_sessions(session)
             -- TODO: could the -2 chars on the hash cause collisions? needs exploration
             local encoded_name = session.encoder.encode(session.data.user.email)
             local res = session.storage:scan(string.sub(encoded_name, 1, #encoded_name-2) .. "*[^.lock]")
-            if res and #res[2] >= defaults.concurrent_limit then
+            if res and #res[2] >= config.concurrent_limit then
                 ngx.log(ngx.ERR, "session limit reached for user: " .. session.data.user.email)
                 return nil
             end
