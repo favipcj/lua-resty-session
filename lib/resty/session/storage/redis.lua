@@ -330,6 +330,27 @@ function storage:get(key)
     return data
 end
 
+function storage:scan(pattern)
+    -- redis SCAN call
+    -- in: pattern (str)
+    -- TODO: add count and cursor
+    -- output: table
+    local ok, err = self:connect()
+    if ok then
+        ngx.log(ngx.DEBUG, "scan pattern: " .. pattern)
+        local data, err = self.redis:scan(0, "MATCH", defaults.prefix .. ":" .. pattern, "COUNT", 100)
+        if err then
+            ngx.log(ngx.ERR, "Data: " .. type(data) .. ' err: ' .. err)
+            return nil, err
+        elseif data then
+            ngx.log(ngx.DEBUG, "Number of sessions found: " .. #data[2])
+            return data
+        end
+    end
+    ngx.log(ngx.ERR, "Redis Connection Error: " .. err)
+    return nil, err
+end
+
 function storage:set(key, data, lifetime)
     return self.redis:setex(key, lifetime, data)
 end
