@@ -1,10 +1,7 @@
-local tonumber = tonumber
 local random   = require "resty.random".bytes
-local var      = ngx.var
 
 local defaults = {
-    length = 6,
-    header_name = var.session_header_uid
+    length = 6
 }
 
 return function(session)
