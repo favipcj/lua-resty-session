@@ -14,8 +14,7 @@ return function(session)
         uid = session.data.user.email
     end
     local pad = random(length, true) or random(length)
-    ngx.log(ngx.STDERR, "uid: " .. uid .. " pad: " .. pad)
-
+    ngx.log(ngx.DEBUG, "uid: " .. uid .. " pad: " .. pad)
 
     -- return uid if avalible with padding
     return (uid .. pad)
