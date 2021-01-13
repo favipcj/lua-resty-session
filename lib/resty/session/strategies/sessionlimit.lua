@@ -57,14 +57,13 @@ function strategy.save(session, close)
         elseif storage.close then
             storage:close(session.encoder.encode(session.id))
         end
-
         session.id = session:identifier()
     end
     if check_open_sessions(session) then
         ngx.log(ngx.DEBUG, "Saving session")
         return default.modify(session, "save", close, key(session))
     else
-        ngx.log(ngx.STDERR, "Session limit reach session can not be saved")
+        ngx.log(ngx.ERROR, "Session limit reach session can not be saved")
         return nil
     end
 end
