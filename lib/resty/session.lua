@@ -646,7 +646,6 @@ function session.start(opts)
             return nil, err or "unable to touch session cookie"
         end
     end
-    ngx.log(ngx.INFO, "session: " .. self.id .. " created")
     return self, true
 end
 
