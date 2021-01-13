@@ -10,7 +10,6 @@ local defaults = {
 
 local strategy = {
   start   = regenerate.start,
-  destroy = regenerate.destroy,
   close   = regenerate.close,
   open    = regenerate.open,
   touch   = regenerate.touch
@@ -66,6 +65,25 @@ function strategy.save(session, close)
         ngx.log(ngx.ERROR, "Session limit reach session can not be saved")
         return nil
     end
+end
+
+function strategy.destroy(session)
+  local id = session.id
+  if id then
+    local storage = session.storage
+    if storage.destroy then
+      if session.data and session.data.user then
+        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(id) .. " ended for user: " .. session.data.user.email)
+      else
+        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(id) .. " ended")
+      end
+      return storage:destroy(session.encoder.encode(id))
+    elseif storage.close then
+      ngx.log(ngx.WARN, "session close")
+      return storage:close(session.encoder.encode(id))
+    end
+  end
+  return true
 end
 
 return strategy
