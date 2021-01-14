@@ -678,7 +678,7 @@ end
 function session:regenerate(flush, close)
     close = close ~= false
     regenerate(self, flush)
-    ngx.log(ngx.INFO, "session: " .. self.id .. " renewed")
+    ngx.log(ngx.WARN, "session: " .. self.encoder.encode(self.id) .. " renewed")
 
     return save(self, close)
 end
