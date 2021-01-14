@@ -671,7 +671,6 @@ function session.destroy(opts)
     self.started   = nil
     self.closed    = true
     self.destroyed = true
-    ngx.log(ngx.INFO, "session: " .. self.id .. " ended")
 
     return set_cookie(self, "", true)
 end
