@@ -304,6 +304,7 @@ end
 local function touch(session, close)
     if set_usebefore(session) then
         -- usebefore was updated, so set cookie
+        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed")
         local cookie, err = session.strategy.touch(session, close)
         if not cookie then
             return nil, err or "unable to touch session cookie"
