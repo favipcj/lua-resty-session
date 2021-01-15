@@ -12,7 +12,6 @@ local strategy = {
   start   = regenerate.start,
   close   = regenerate.close,
   open    = regenerate.open,
-  touch   = regenerate.touch
 }
 
 local function key(source)
@@ -84,6 +83,12 @@ function strategy.destroy(session)
     end
   end
   return true
+end
+
+function strategy.touch(session, close)
+    ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed")
+
+    return default.modify(session, "save", close, key(session))
 end
 
 return strategy
