@@ -86,7 +86,7 @@ function strategy.destroy(session)
 end
 
 function strategy.touch(session, close)
-    ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed")
+    ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed for user: " .. session.data.user.email)
 
     return default.modify(session, "save", close, key(session))
 end
