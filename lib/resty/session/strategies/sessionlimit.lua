@@ -61,7 +61,7 @@ function strategy.save(session, close)
         ngx.log(ngx.DEBUG, "Saving session")
         return default.modify(session, "save", close, key(session))
     else
-        ngx.log(ngx.ERROR, "Session limit reach session can not be saved")
+        ngx.log(ngx.ERR, "Session limit reach session can not be saved")
         return nil, "Session limit reached"
     end
 end
