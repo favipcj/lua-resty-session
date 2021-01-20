@@ -71,10 +71,11 @@ function strategy.destroy(session)
   if id then
     local storage = session.storage
     if storage.destroy then
-      if session.data and session.data.user then
-        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(id) .. " ended for user: " .. session.data.user.email)
-      else
-        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(id) .. " ended")
+        ngx.log(ngx.DEBUG, "session: " .. session.encoder.encode(id))
+        if session.data and session.data.user then
+            ngx.log(ngx.WARN, "session ended for user: " .. session.data.user.email)
+        else
+            ngx.log(ngx.WARN, "session ended")
       end
       return storage:destroy(session.encoder.encode(id))
     elseif storage.close then
@@ -86,10 +87,11 @@ function strategy.destroy(session)
 end
 
 function strategy.touch(session, close)
+    ngx.log(ngx.DEBUG, "session: " .. session.encoder.encode(session.id))
     if session.data and session.data.user then
-        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed for user: " .. session.data.user.email)
+        ngx.log(ngx.WARN, "session renewed for user: " .. session.data.user.email)
     else
-        ngx.log(ngx.WARN, "session: " .. session.encoder.encode(session.id) .. " renewed")
+        ngx.log(ngx.WARN, "session renewed")
     end
 
     return default.modify(session, "save", close, key(session))

@@ -11,6 +11,8 @@ function strategy.load(session, cookie, key, keep_lock)
   if storage.open then
     data, err = session.storage:open(session.encoder.encode(id), keep_lock)
     if not data then
+      ngx.log(ngx.DEBUG, "session: " .. session.encoder.encode(id))
+      ngx.log(ngx.ERR, "session not found. Possible timeout.")
       return nil, err or "cookie data was not found"
     end
 
