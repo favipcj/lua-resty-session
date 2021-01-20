@@ -62,7 +62,7 @@ function strategy.save(session, close)
         return default.modify(session, "save", close, key(session))
     else
         ngx.log(ngx.ERR, "Session limit reach session can not be saved")
-        ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
+        ngx.exit(430)
     end
 end
 
